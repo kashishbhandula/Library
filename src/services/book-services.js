@@ -24,6 +24,10 @@ class BookDataService {
   getAllBooks=()=>{
     return getDocs(bookCollectionRef);
   }
+  getBook=(id)=>{
+    const bookDoc = doc(db, "books", id);
+    return getDocs(bookDoc);
+  }
 }
 
 export default new BookDataService();
