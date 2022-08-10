@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-
 import BookDataService from "../services/book-services";
-
 import { Table, Button } from "react-bootstrap";
 
 const BooksList = ({getBookId}) => {
@@ -52,8 +50,7 @@ const BooksList = ({getBookId}) => {
                 <td>{doc.status}</td>
                 <td>
                   <button onClick={(e) => getBookId(doc.id)}>edit</button>
-                </td>
-                <td>
+                  &nbsp;&nbsp; &nbsp; 
                   <button onClick={(e) => deleteHandler(doc.id)}>delete</button>
                 </td>
               </tr>

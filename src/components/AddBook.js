@@ -1,6 +1,6 @@
 import { async } from "@firebase/util";
 import React, { useState, useEffect } from "react";
-import { Form, Alert, InputGroup, Button, ButtonGroup } from "react-bootstrap";
+import { Form, Alert, InputGroup, Button, ButtonGroup} from "react-bootstrap";
 import BookDataService from "../services/book-services";
 
 const AddBook = ({ id, setBookId }) => {
@@ -56,8 +56,17 @@ const AddBook = ({ id, setBookId }) => {
       editHandler();
     }
   }, [id]);
+  const style={
+    display:"flex",
+    flexDirection:"column",
+    width: "auto"
+
+    
+      
+  }
   return (
-    <div className="container">
+    
+    <div className="container" >
       {message?.msg && (
         <Alert
           variant={message?.error ? "danger" : "success"}
@@ -67,7 +76,7 @@ const AddBook = ({ id, setBookId }) => {
           {message?.msg}
         </Alert>
       )}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={style}>
         <label htmlFor="title">Title</label>
         <input
           type="text"
