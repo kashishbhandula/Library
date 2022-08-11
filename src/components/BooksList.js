@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import BookDataService from "../services/book-services";
 import { Table, Button } from "react-bootstrap";
 
-const BooksList = ({getBookId}) => {
+const BooksList = ({ getBookId }) => {
+  
   const [books, setBooks] = useState([]);
   useEffect(() => {
     getBooks();
@@ -29,6 +30,7 @@ const BooksList = ({getBookId}) => {
           Refresh List
         </Button>
       </div>
+      <br/>
       {/* <pre>{JSON.stringify(books, undefined, 2)}</pre> */}
       <Table striped bordered hover size="sm">
         <thead>
@@ -49,8 +51,8 @@ const BooksList = ({getBookId}) => {
                 <td>{doc.author}</td>
                 <td>{doc.status}</td>
                 <td>
-                  <button onClick={(e) => getBookId(doc.id)}>edit</button>
-                  &nbsp;&nbsp; &nbsp; 
+                  <button onClick={(e) => getBookId(doc)}>edit</button>
+                  &nbsp;&nbsp; &nbsp;
                   <button onClick={(e) => deleteHandler(doc.id)}>delete</button>
                 </td>
               </tr>

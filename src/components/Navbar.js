@@ -3,8 +3,7 @@ import ReactDOM from "react-dom";
 import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
 const Menu = () => {
   const style = {
-    
-    justifyContent:"center"
+    justifyContent: "center",
   };
   return (
     <>

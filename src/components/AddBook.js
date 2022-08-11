@@ -1,13 +1,14 @@
-import { async } from "@firebase/util";
 import React, { useState, useEffect } from "react";
-import { Form, Alert, InputGroup, Button, ButtonGroup} from "react-bootstrap";
+import { Form, Alert, InputGroup, Button, ButtonGroup } from "react-bootstrap";
 import BookDataService from "../services/book-services";
 
 const AddBook = ({ id, setBookId }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [status, setStatus] = useState("");
+  const [flag, setFlag] = useState(true);
   const [message, setMessage] = useState({ error: false, msg: "" });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
@@ -17,18 +18,19 @@ const AddBook = ({ id, setBookId }) => {
       return;
     }
     const newBook = {
-      title: title,
+      title,
       author,
       status,
     };
-    console.log(newBook);
+    // console.log(newBook);
     try {
       if (id !== undefined && id !== "") {
-        await BookDataService.updateBook(newBook);
-        setMessage({ error: false, msg: "Updated successfully" });
-        setBookId("");
         
+        await BookDataService.updateBook(id, newBook);
+        setBookId("");
+        setMessage({ error: false, msg: "Updated successfully" });
       } else {
+        
         await BookDataService.addBooks(newBook);
         setMessage({ error: false, msg: "New Book added successfully" });
       }
@@ -38,35 +40,35 @@ const AddBook = ({ id, setBookId }) => {
     setTitle("");
     setAuthor("");
   };
+
   const editHandler = async () => {
-    setMessage("");
+    setMessage("hello");
     try {
       const docSnap = await BookDataService.getBook(id);
-      console.log(docSnap);
+      // console.log(docSnap);
       setTitle(docSnap.data().title);
-      setTitle(docSnap.data().author);
-      setTitle(docSnap.data().status);
+      setAuthor(docSnap.data().author);
+      setStatus(docSnap.data().status);
     } catch (err) {
-      setMessage({ error: true, msd: err.message });
+      setMessage({ error: true, msg: err.message });
     }
   };
+
   useEffect(() => {
-    console.log("the id is here");
+    // console.log("the id is here");
     if (id !== undefined && id !== "") {
       editHandler();
     }
   }, [id]);
-  const style={
-    display:"flex",
-    flexDirection:"column",
-    width: "auto"
 
-    
-      
-  }
+  const style = {
+    display: "flex",
+    flexDirection: "column",
+    width: "auto",
+  };
+
   return (
-    
-    <div className="container" >
+    <div className="container">
       {message?.msg && (
         <Alert
           variant={message?.error ? "danger" : "success"}
@@ -79,6 +81,7 @@ const AddBook = ({ id, setBookId }) => {
       <form onSubmit={handleSubmit} style={style}>
         <label htmlFor="title">Title</label>
         <input
+          id="title"
           type="text"
           name="title"
           value={title}
@@ -88,13 +91,40 @@ const AddBook = ({ id, setBookId }) => {
 
         <label htmlFor="author">Author</label>
         <input
+          id="author"
           type="text"
           name="author"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
         <br />
-        <button>Submit</button>
+        <ButtonGroup aria-label="Basic example" className="mb-3">
+          <Button
+            disabled={flag}
+            variant="success"
+            onClick={(e) => {
+              setStatus("Available");
+              setFlag(true);
+            }}
+          >
+            Available
+          </Button>
+          <Button
+            variant="danger"
+            disabled={!flag}
+            onClick={(e) => {
+              setStatus("Not Available");
+              setFlag(false);
+            }}
+          >
+            Not Available
+          </Button>
+        </ButtonGroup>
+        <div className="d-grid gap-2">
+          <Button variant="primary" type="Submit">
+            Add/ Update
+          </Button>
+        </div>
       </form>
     </div>
   );
